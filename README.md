@@ -46,6 +46,14 @@ Built as an extremely sophisticated demonstration of the **Endee Vector Database
   <img src="app/static/images/endee retrieved.png" alt="Endee Vector Source Retrieval" width="800" />
 </div>
 
+<br>
+
+<div align="center">
+  <h3>Secure Custom API Key Management</h3>
+  <p><i>Users can dynamically inject their personal Groq API Keys directly from the UI without editing `.env` files. Keys are stored securely in local browser storage.</i></p>
+  <img src="app/static/images/api option - bottom left corner.png" alt="Secure API Key Settings Modal" width="500" />
+</div>
+
 ---
 
 ## 🚀 Quick Start (Interactive Setup)
