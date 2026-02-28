@@ -1,0 +1,26 @@
+# Environment
+.env
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.gemini/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Endee data volume
+endee-data/
+
+# Logs (optional — can be committed for evaluation)
+# logs/
+
+# Large PDFs in raw directory
+data/raw/*.pdf

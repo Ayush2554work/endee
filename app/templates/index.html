@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="HemaV MedAssist - AI-powered medical RAG assistant for hematology and anemia research, powered by Endee Vector Database and Groq LLM.">
+    <title>HemaV MedAssist — AI Medical RAG Assistant</title>
+    <link rel="icon" type="image/png" href="/static/images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+    <!-- ─── Animated Background Particles ─── -->
+    <div class="bg-particles" id="particles"></div>
+
+    <!-- ─── Sidebar ─── -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="/static/images/logo.png" alt="HemaV AI Logo" class="sidebar-logo">
+            <span class="sidebar-badge">MedAssist</span>
+        </div>
+
+        <nav class="sidebar-nav">
+            <button class="new-chat-btn" onclick="startNewChat()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span>New Chat</span>
+            </button>
+            <a href="#" class="nav-item active" data-section="chat">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span>Chat</span>
+            </a>
+            <a href="#" class="nav-item" data-section="about">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span>About</span>
+            </a>
+            <a href="#" class="nav-item" data-section="architecture">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+                <span>Architecture</span>
+            </a>
+        </nav>
+
+        <!-- Connection Status -->
+        <div class="sidebar-status">
+            <div class="status-indicator" id="endee-status">
+                <div class="status-dot"></div>
+                <span>Endee DB</span>
+            </div>
+            <div class="status-indicator" id="groq-status">
+                <div class="status-dot"></div>
+                <span>Groq LLM</span>
+            </div>
+        </div>
+
+        <!-- Developer Info -->
+        <div class="sidebar-footer">
+            <div class="dev-card">
+                <div class="dev-name">Ayush Kumar</div>
+                <div class="dev-links">
+                    <a href="mailto:ayushkumarwork2554@gmail.com" title="Gmail">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                            </path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </a>
+                    <a href="mailto:e22cseu1517@bennett.edu.in" title="University Email">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                            <path d="M6 12v5c0 1 2 3 6 3s6-2 6-3v-5"></path>
+                        </svg>
+                    </a>
+                    <a href="https://github.com/Ayush2554work/" target="_blank" title="GitHub">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z">
+                            </path>
+                        </svg>
+                    </a>
+                    <a href="https://ayushky.me" target="_blank" title="Portfolio">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="2" y1="12" x2="22" y2="12"></line>
+                            <path
+                                d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                            </path>
+                        </svg>
+                    </a>
+                    <a href="tel:9315246678" title="Phone">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path
+                                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+                            </path>
+                        </svg>
+                    </a>
+                </div>
+                <!-- Settings Button -->
+                <button class="settings-btn" id="settings-toggle" title="Settings / API Key">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path
+                            d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z">
+                        </path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    <span>API Settings</span>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ─── Mobile Header ─── -->
+    <header class="mobile-header">
+        <button class="hamburger" id="menu-toggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+        <img src="/static/images/logo.png" alt="HemaV AI" class="mobile-logo">
+    </header>
+
+    <!-- ─── Main Content ─── -->
+    <main class="main-content">
+
+        <!-- Chat Section -->
+        <section class="section active" id="section-chat">
+            <div class="chat-container">
+                <!-- Welcome Message -->
+                <div class="welcome-screen" id="welcome">
+                    <div class="welcome-icon">
+                        <img src="/static/images/logo.png" alt="HemaV AI" class="welcome-logo">
+                    </div>
+                    <h1 class="welcome-title">HemaV <span class="gradient-text">MedAssist</span></h1>
+                    <p class="welcome-subtitle">AI-Powered Medical Knowledge Assistant</p>
+                    <p class="welcome-desc">Ask me anything about hematology, anemia, hemoglobin screening, and related
+                        medical topics. Powered by <strong>Endee Vector Database</strong> and <strong>Groq LLM</strong>.
+                    </p>
+
+                    <div class="suggestion-grid">
+                        <button class="suggestion-card"
+                            onclick="askQuestion('What are the common symptoms of iron deficiency anemia?')">
+                            <div class="suggestion-icon">🩸</div>
+                            <span>Symptoms of iron deficiency anemia</span>
+                        </button>
+                        <button class="suggestion-card"
+                            onclick="askQuestion('How does hemoglobin level correlate with anemia severity?')">
+                            <div class="suggestion-icon">📊</div>
+                            <span>Hemoglobin levels & anemia severity</span>
+                        </button>
+                        <button class="suggestion-card"
+                            onclick="askQuestion('What are the different types of anemia and their causes?')">
+                            <div class="suggestion-icon">🔬</div>
+                            <span>Types of anemia & their causes</span>
+                        </button>
+                        <button class="suggestion-card highlight"
+                            onclick="askQuestion('Fetch details from my research paper HemaV AI and explain the core concept of the project.')">
+                            <div class="suggestion-icon">🚀</div>
+                            <span>My Project - HemaV AI</span>
+                        </button>
+                    </div>
+
+                    <div class="disclaimer-banner">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        <span>This tool is for <strong>educational purposes only</strong>. Always consult a qualified
+                            healthcare professional for medical advice.</span>
+                    </div>
+                </div>
+
+                <!-- Chat Messages -->
+                <div class="chat-messages" id="chat-messages"></div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-area">
+                <div class="input-container">
+                    <textarea id="query-input"
+                        placeholder="Ask a medical question about anemia, hemoglobin, hematology..." rows="1"
+                        maxlength="1000"></textarea>
+                    <button class="send-btn" id="send-btn" onclick="sendQuery()" aria-label="Send">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <line x1="22" y1="2" x2="11" y2="13"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                        </svg>
+                    </button>
+                </div>
+                <div class="input-footer">
+                    <span>Powered by <strong>Endee Vector DB</strong> + <strong>Groq</strong> (Llama 3.3 70B)</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="section" id="section-about">
+            <div class="page-content">
+                <div class="page-header">
+                    <h1>About <span class="gradient-text">HemaV MedAssist</span></h1>
+                    <p class="page-desc">An AI-powered medical knowledge assistant that uses Retrieval-Augmented
+                        Generation to provide grounded, evidence-based answers about hematology and anemia.</p>
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-card">
+                        <div class="info-icon">🎯</div>
+                        <h3>Problem Statement</h3>
+                        <p>Medical professionals and students need quick access to reliable hematology information.
+                            Traditional search returns keyword matches, not semantic understanding. HemaV MedAssist
+                            bridges this gap with AI-powered semantic search.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">🧠</div>
+                        <h3>How It Works</h3>
+                        <p>Medical papers are chunked, embedded using Sentence Transformers, and indexed in Endee Vector
+                            DB. User queries are semantically matched against this knowledge base, and a Groq-powered
+                            LLM generates accurate, cited answers.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">⚡</div>
+                        <h3>Why Endee?</h3>
+                        <p>Endee provides high-performance vector similarity search with HNSW indexing, multiple
+                            distance metrics, and metadata filtering — perfect for a medical RAG system that needs fast,
+                            accurate retrieval.</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon">🛡️</div>
+                        <h3>Responsible AI</h3>
+                        <p>Every answer includes source citations and a medical disclaimer. The system only answers from
+                            its knowledge base and recommends professional consultation, ensuring safe and responsible
+                            AI usage.</p>
+                    </div>
+                </div>
+
+                <div class="tech-stack">
+                    <h2>Tech Stack</h2>
+                    <div class="tech-pills">
+                        <span class="tech-pill"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/python.svg"
+                                alt="" width="16"> Python</span>
+                        <span class="tech-pill">🗄️ Endee Vector DB</span>
+                        <span class="tech-pill">🤖 Groq + Llama 3.3 70B</span>
+                        <span class="tech-pill">🧠 Sentence Transformers</span>
+                        <span class="tech-pill"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/flask.svg"
+                                alt="" width="16"> Flask</span>
+                        <span class="tech-pill">🐳 Docker</span>
+                    </div>
+                </div>
+
+                <div class="developer-section">
+                    <h2>Developer</h2>
+                    <div class="dev-profile">
+                        <div class="dev-avatar">AK</div>
+                        <div class="dev-info">
+                            <h3>Ayush Kumar</h3>
+                            <p>B.Tech CSE, Bennett University</p>
+                            <div class="dev-contact-grid">
+                                <a href="mailto:ayushkumarwork2554@gmail.com">📧 ayushkumarwork2554@gmail.com</a>
+                                <a href="mailto:e22cseu1517@bennett.edu.in">🎓 e22cseu1517@bennett.edu.in</a>
+                                <a href="tel:9315246678">📱 9315246678</a>
+                                <a href="https://github.com/Ayush2554work/" target="_blank">💻
+                                    github.com/Ayush2554work</a>
+                                <a href="https://ayushky.me" target="_blank">🌐 ayushky.me</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture Section -->
+        <section class="section" id="section-architecture">
+            <div class="page-content">
+                <div class="page-header">
+                    <h1>System <span class="gradient-text">Architecture</span></h1>
+                    <p class="page-desc">How HemaV MedAssist processes your queries through a sophisticated RAG
+                        pipeline.</p>
+                </div>
+
+                <div class="architecture-flow">
+                    <div class="flow-step">
+                        <div class="flow-number">1</div>
+                        <div class="flow-content">
+                            <h3>📄 Document Ingestion</h3>
+                            <p>Medical PDFs are parsed, text is extracted page-by-page, and split into overlapping
+                                chunks (500 chars, 50 char overlap) to preserve context.</p>
+                        </div>
+                    </div>
+                    <div class="flow-connector"></div>
+                    <div class="flow-step">
+                        <div class="flow-number">2</div>
+                        <div class="flow-content">
+                            <h3>🧠 Embedding Generation</h3>
+                            <p>Each chunk is converted into a 384-dimensional dense vector using the
+                                <code>all-MiniLM-L6-v2</code> Sentence Transformer model.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flow-connector"></div>
+                    <div class="flow-step">
+                        <div class="flow-number">3</div>
+                        <div class="flow-content">
+                            <h3>🗄️ Endee Vector Indexing</h3>
+                            <p>Vectors are indexed in Endee using HNSW algorithm with cosine similarity. Metadata
+                                (source, page) and filters are attached for structured retrieval.</p>
+                        </div>
+                    </div>
+                    <div class="flow-connector"></div>
+                    <div class="flow-step">
+                        <div class="flow-number">4</div>
+                        <div class="flow-content">
+                            <h3>🔍 Semantic Search</h3>
+                            <p>User query → embedding → Endee vector similarity search → top-5 most relevant medical
+                                document chunks retrieved.</p>
+                        </div>
+                    </div>
+                    <div class="flow-connector"></div>
+                    <div class="flow-step">
+                        <div class="flow-number">5</div>
+                        <div class="flow-content">
+                            <h3>💡 RAG Answer Generation</h3>
+                            <p>Retrieved context + user question → Groq LLM (Llama 3.3 70B) → grounded, cited answer
+                                with medical disclaimer.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="endee-highlight">
+                    <h2>How Endee Is Used</h2>
+                    <div class="endee-features">
+                        <div class="endee-feature">
+                            <h4>Index Creation</h4>
+                            <code>client.create_index(name="hemav_medical_docs", dimension=384, space_type="cosine")</code>
+                            <p>Creates a dense vector index optimized for medical document embeddings.</p>
+                        </div>
+                        <div class="endee-feature">
+                            <h4>Vector Upsert</h4>
+                            <code>index.upsert([{id, vector, meta: {text, source, page}, filter: {doc_type}}])</code>
+                            <p>Stores embedded chunks with rich metadata for source tracing and filtering.</p>
+                        </div>
+                        <div class="endee-feature">
+                            <h4>Similarity Search</h4>
+                            <code>index.query(vector=query_embedding, top_k=5, ef=128)</code>
+                            <p>Finds the most semantically similar medical chunks using HNSW-based ANN search.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ─── Settings Modal ─── -->
+    <div class="modal-overlay" id="settings-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button class="modal-close" id="settings-close">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-group">
+                    <label for="api-key-input">Groq API Key (Optional)</label>
+                    <p class="setting-desc">By default, the app uses the key in the <code>.env</code> file. You can
+                        override it here for testing.</p>
+                    <input type="password" id="api-key-input" placeholder="gsk_...">
+                </div>
+                <button class="save-settings-btn" id="save-settings">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+
+</html>

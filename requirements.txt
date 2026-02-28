@@ -1,0 +1,12 @@
+endee
+sentence-transformers
+PyPDF2
+groq
+fastapi
+uvicorn[standard]
+jinja2
+markdown
+python-dotenv
+python-multipart
+torch
+transformers
