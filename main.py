@@ -52,22 +52,16 @@ def run_ingestion(pdf_path: str = None, directory: str = None):
         print(f"📖 Step 1: Extracting text from all PDFs in {directory}...")
         pages = extract_from_directory(directory)
     else:
-        # Default: ingest hemavai.pdf + data/raw/ + data/medical_docs/
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        default_pdf = os.path.join(base_dir, "hemavai.pdf")
+        # Default: ingest data/raw/ + data/medical_docs/
         pages = []
 
-        if os.path.exists(default_pdf):
-            print(f"📖 Step 1a: Extracting text from hemavai.pdf...")
-            pages.extend(extract_text_from_pdf(default_pdf))
-
         if os.path.isdir(DATA_DIR):
-            print(f"📖 Step 1b: Extracting text from data/raw/...")
+            print(f"📖 Step 1a: Extracting text from data/raw/...")
             pages.extend(extract_from_directory(DATA_DIR))
 
         from config import MEDICAL_DOCS_DIR
         if os.path.isdir(MEDICAL_DOCS_DIR):
-            print(f"📖 Step 1c: Extracting text from data/medical_docs/...")
+            print(f"📖 Step 1b: Extracting text from data/medical_docs/...")
             pages.extend(extract_from_directory(MEDICAL_DOCS_DIR))
 
     if not pages:
@@ -111,6 +105,20 @@ def main():
         run_ingestion(pdf_path=args.file, directory=args.dir)
         if args.ingest_only:
             return
+    else:
+        # Auto-ingest if Endee is running but index doesn't exist
+        try:
+            from endee_integration.indexer import get_client
+            from config import INDEX_NAME
+            client = get_client()
+            client.get_index(name=INDEX_NAME)
+        except Exception as e:
+            if "ConnectionError" in str(type(e)):
+                print(f"⚠️ Warning: Could not connect to Endee Vector Database.")
+                print(f"   Ensure Docker is running `endeespace/endee:latest` on port 8080.")
+            else:
+                print(f"⚠️ Index '{INDEX_NAME}' not found. Running automatic ingestion...")
+                run_ingestion()
 
     # Start the web server
     print(f"\n🚀 Starting HemaV MedAssist on http://{args.host}:{args.port}")
