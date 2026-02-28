@@ -24,14 +24,38 @@ Built as an extremely sophisticated demonstration of the **Endee Vector Database
 
 ---
 
+## 🖼️ Application Showcase
+
+<div align="center">
+  <h3>The HemaV Dashboard</h3>
+  <img src="app/static/images/home-screen.png" alt="Home Screen Dashboard" width="800" />
+</div>
+
+<br>
+
+<div align="center">
+  <h3>Semantic Search in Action</h3>
+  <img src="app/static/images/search-result.png" alt="Semantic Search Result" width="800" />
+</div>
+
+<br>
+
+<div align="center">
+  <h3>Real-Time Endee Retrieval</h3>
+  <p><i>The UI instantly displays the exact medical chunks retrieved from the Vector Database along with their Cosine Similarity match percentage.</i></p>
+  <img src="app/static/images/endee retrieved.png" alt="Endee Vector Source Retrieval" width="800" />
+</div>
+
+---
+
 ## 🚀 Quick Start (Interactive Setup)
 
 <details>
 <summary><strong>👉 Step 1: Clone the Repository & Setup Environment</strong></summary>
 
 ```bash
-git clone https://github.com/Ayush2554work/endee.io_ayush-kumar.git
-cd endee.io_ayush-kumar
+git clone https://github.com/Ayush2554work/endee.git
+cd endee
 
 # Create and activate a virtual environment
 python3 -m venv venv
@@ -77,6 +101,10 @@ python main.py
 To generate the human-readable answers, the app uses the lightning-fast Groq Llama 3 LLM.
 - You can add your API key securely directly in the Web UI by clicking the **⚙️ API Settings** button in the bottom left corner.
 - *Alternatively, you can create a `.env` file in the root directory and add `GROQ_API_KEY=your_key_here`.*
+
+<div align="center">
+  <img src="app/static/images/api option - bottom left corner.png" alt="Secure API Key Settings Modal" width="500" />
+</div>
 </details>
 
 ---
@@ -84,6 +112,10 @@ To generate the human-readable answers, the app uses the lightning-fast Groq Lla
 ## 🏗️ Architecture & System Flow
 
 HemaV MedAssist employs a robust **Modular Pipeline Architecture**, ensuring a clean separation of concerns between data processing, embeddings, storage, and the web tier.
+
+<div align="center">
+  <img src="app/static/images/Architecture.png" alt="HemaV Architecture Diagram" width="800" />
+</div>
 
 <details open>
 <summary><strong>🔄 The RAG Lifecycle (How it works under the hood)</strong></summary>
@@ -109,6 +141,12 @@ HemaV MedAssist employs a robust **Modular Pipeline Architecture**, ensuring a c
 
 ## 🧠 Why Endee Vector Database? (Instead of SQL)
 
+<div align="center">
+  <img src="app/static/images/endee use.png" alt="Endee Vector Integration" width="800" />
+</div>
+
+<br>
+
 Traditional relational databases (PostgreSQL, MySQL) are physically incapable of understanding the *meaning* of text. 
 
 If a user searched for: **"Exhaustion from low iron"**
@@ -120,6 +158,10 @@ By measuring the **Cosine Similarity** angle between the user's string of text a
 ---
 
 ## ⚙️ Tech Stack
+
+<div align="center">
+  <img src="app/static/images/about.png" alt="Tech Stack Details" width="800" />
+</div>
 
 ### 🚀 Core Intelligence
 * **Vector Database:** [Endee](https://github.com/endee-io/endee) (High-performance HNSW vector search)
